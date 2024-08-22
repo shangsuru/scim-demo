@@ -1,10 +1,19 @@
 Rails.application.routes.draw do
-  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
+  scope :scim do
+    mount Scimitar::Engine, at: '/'
 
-  # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
-  # Can be used by load balancers and uptime monitors to verify that the app is live.
-  get "up" => "rails/health#show", as: :rails_health_check
+    get    'Users',      to: 'users#index'
+    get    'Users/:id',  to: 'users#show'
+    post   'Users',      to: 'users#create'
+    put    'Users/:id',  to: 'users#replace'
+    patch  'Users/:id',  to: 'users#update'
+    delete 'Users/:id',  to: 'users#destroy'
 
-  # Defines the root path route ("/")
-  # root "posts#index"
+    get    'Groups',      to: 'groups#index'
+    get    'Groups/:id',  to: 'groups#show'
+    post   'Groups',      to: 'groups#create'
+    put    'Groups/:id',  to: 'groups#replace'
+    patch  'Groups/:id',  to: 'groups#update'
+    delete 'Groups/:id',  to: 'groups#destroy'
+  end
 end

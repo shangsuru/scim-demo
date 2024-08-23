@@ -134,6 +134,7 @@ class User < ActiveRecord::Base
       'emails.value'      => { columns: [ :work_email_address, :home_email_address ] },
       'emails.type'       => { ignore: true }, # We can't filter on that; it'll just search all e-mails
       'primaryEmail'      => { column: :scim_primary_email },
+      'userName'          => { column: :username }
     }
   end
 

@@ -79,4 +79,6 @@ Rails.application.config.to_prepare do
 
   Scimitar::Resources::User.extend_schema ScimSchemaExtensions::User::Enterprise
   Scimitar::Resources::User.extend_schema ScimSchemaExtensions::User::Manager
+
+  Scimitar::Engine.add_custom_resource Scim::Resources::Pokemon
 end

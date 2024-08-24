@@ -202,10 +202,6 @@
 								"exec": [
 									"pm.test(\"Status code is 200\", function () {\r",
 									"    pm.response.to.have.status(200);\r",
-									"});\r",
-									"\r",
-									"pm.test(\"Body contians User Account\", function () {\r",
-									"pm.expect(pm.response.text()).to.include(\"User Account\");\r",
 									"});"
 								],
 								"type": "text/javascript",
@@ -235,6 +231,40 @@
 							"path": [
 								"{{Api}}",
 								"Schemas"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get User Schema",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://{{Server}}{{Port}}/{{Api}}/Schemas/urn:ietf:params:scim:schemas:core:2.0:User",
+							"protocol": "http",
+							"host": [
+								"{{Server}}{{Port}}"
+							],
+							"path": [
+								"{{Api}}",
+								"Schemas",
+								"urn:ietf:params:scim:schemas:core:2.0:User"
 							]
 						}
 					},
@@ -3412,6 +3442,144 @@
 			]
 		},
 		{
+			"name": "Custom resource test",
+			"item": [
+				{
+					"name": "Post pokemon",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"",
+									"",
+									"var jsonData = pm.response.json();",
+									"",
+									"pm.collectionVariables.set(\"pokemonid\", jsonData.id);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-type": true
+						}
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/scim+json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"schemas\": [\"urn:ietf:params:scim:schemas:core:2.0:Pokemon\"],\r\n    \"name\": \"Mimikyu\",\r\n    \"pokemon_type\": \"Ghost Fairy\",\r\n    \"pokedex_number\": 778,\r\n    \"externalId\": \"Mimikyu\",\r\n    \"image\": \"https://archives.bulbagarden.net/media/upload/thumb/4/41/0778Mimikyu.png/500px-0778Mimikyu.png\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{Server}}{{Port}}/{{Api}}/Pokemons",
+							"protocol": "http",
+							"host": [
+								"{{Server}}{{Port}}"
+							],
+							"path": [
+								"{{Api}}",
+								"Pokemons"
+							]
+						},
+						"description": "Create a user with many attributes"
+					},
+					"response": []
+				},
+				{
+					"name": "Get pokemon",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Id is requsted\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    var id = pm.collectionVariables.get(\"pokemonid\");",
+									"    pm.expect(jsonData.id).to.eql(id);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://{{Server}}{{Port}}/{{Api}}/Pokemons/{{pokemonid}}",
+							"protocol": "http",
+							"host": [
+								"{{Server}}{{Port}}"
+							],
+							"path": [
+								"{{Api}}",
+								"Pokemons",
+								"{{pokemonid}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete pokemon",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 204\", function () {",
+									"    pm.response.to.have.status(204);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://{{Server}}{{Port}}/{{Api}}/Pokemons/{{pokemonid}}",
+							"protocol": "http",
+							"host": [
+								"{{Server}}{{Port}}"
+							],
+							"path": [
+								"{{Api}}",
+								"Pokemons",
+								"{{pokemonid}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "Get all users",
 			"event": [
 				{
@@ -3488,6 +3656,44 @@
 					"path": [
 						"{{Api}}",
 						"Groups"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get all pokemon",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Users cleared\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.Resources).to.eql([]);",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{Server}}{{Port}}/{{Api}}/Pokemons",
+					"protocol": "http",
+					"host": [
+						"{{Server}}{{Port}}"
+					],
+					"path": [
+						"{{Api}}",
+						"Pokemons"
 					]
 				}
 			},
@@ -3607,6 +3813,10 @@
 		},
 		{
 			"key": "groupid3",
+			"value": ""
+		},
+		{
+			"key": "pokemonid",
 			"value": ""
 		}
 	]

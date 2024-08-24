@@ -15,5 +15,12 @@ Rails.application.routes.draw do
     put    'Groups/:id',  to: 'groups#replace'
     patch  'Groups/:id',  to: 'groups#update'
     delete 'Groups/:id',  to: 'groups#destroy'
+
+    get    'Pokemons',      to: 'pokemons#index'
+    get    'Pokemons/:id',  to: 'pokemons#show'
+    post   'Pokemons',      to: 'pokemons#create'
+    put    'Pokemons/:id',  to: 'pokemons#replace'
+    patch  'Pokemons/:id',  to: 'pokemons#update'
+    delete 'Pokemons/:id',  to: 'pokemons#destroy'
   end
 end

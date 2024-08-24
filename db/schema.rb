@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_08_07_131602) do
+ActiveRecord::Schema[7.1].define(version: 2024_08_24_015223) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -26,6 +26,16 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_07_131602) do
     t.uuid "user_id", null: false
     t.index ["group_id"], name: "index_groups_users_on_group_id"
     t.index ["user_id"], name: "index_groups_users_on_user_id"
+  end
+
+  create_table "pokemons", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.text "scim_uid"
+    t.text "name"
+    t.text "pokemon_type"
+    t.integer "pokedex_number"
+    t.text "image"
   end
 
   create_table "users", primary_key: "primary_key", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|

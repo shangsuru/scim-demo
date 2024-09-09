@@ -18,6 +18,12 @@ bin/rails s
 
 To send pre-made test requests to the SCIM server, import `postman/scim.json` into your Postman App.
 
+If you get an error with installing pg gem, check the error messages carefully. It might be that it cannot find pg_config:
+```shell
+sudo find / -name pg_config 2>/dev/null # Find the pg_config file
+gem install pg --with-pg-config=<your_path>
+```
+
 ![Postman Request](postman/postman.png)
 
 ## About SCIM
